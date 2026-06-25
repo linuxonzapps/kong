@@ -1,0 +1,9 @@
+template: templates/loz-script-project.yaml
+overrides:
+  artifacts:
+    - type: script
+      version: 3.9.1
+      build_script:
+        repo_name: linux-on-ibm-z-scripts
+        path: src/build.sh
+        docker_image: ubuntu:22.04

@@ -1,0 +1,34 @@
+diff --git a/build/nfpm/repositories.bzl b/build/nfpm/repositories.bzl
+index c92cc9de0..5e48a8fcf 100644
+--- a/build/nfpm/repositories.bzl
++++ b/build/nfpm/repositories.bzl
+@@ -15,6 +15,8 @@ def _nfpm_release_select_impl(ctx):
+         os_arch = "arm64"
+     elif os_arch == "amd64":
+         os_arch = "x86_64"
++    elif os_arch == "s390x":
++        os_arch = "s390x"
+     else:
+         fail("Unsupported arch %s" % os_arch)
+ 
+@@ -37,6 +39,7 @@ nfpm_release_select = repository_rule(
+ def nfpm_repositories():
+     npfm_matrix = [
+         ["linux", "x86_64", "3e1fe85c9a224a221c64cf72fc19e7cd6a0a51a5c4f4b336e3b8eccd417116a3"],
++        ["linux", "s390x", "fa262d87d9e66a50217892a160efa0e5cfc410082e75e3b59c21df2ceeb02b27"],
+         ["linux", "arm64", "df8f272195b7ddb09af9575673a9b8111f9eb7529cdd0a3fac4d44b52513a1e1"],
+         ["Darwin", "x86_64", "0213fa5d5af6f209d953c963103f9b6aec8a0e89d4bf0ab3d531f5f8b20b8eeb"],
+         ["Darwin", "arm64", "5162ce5a59fe8d3b511583cb604c34d08bd2bcced87d9159c7005fc35287b9cd"],
+diff --git a/build/nfpm/rules.bzl b/build/nfpm/rules.bzl
+index 96d835928..c693d2330 100644
+--- a/build/nfpm/rules.bzl
++++ b/build/nfpm/rules.bzl
+@@ -13,6 +13,8 @@ def _nfpm_pkg_impl(ctx):
+         target_arch = "amd64"
+     elif target_cpu == "aarch64" or target_cpu == "arm64":
+         target_arch = "arm64"
++    elif target_cpu == "s390x" or target_cpu == "s390x":
++        target_arch = "s390x"
+     else:
+         fail("Unsupported platform cpu: %s" % target_cpu)
+     env["ARCH"] = target_arch
