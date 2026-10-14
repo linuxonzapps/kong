@@ -45,6 +45,7 @@ jobs:
           if compgen -G "./downloads/*.deb" > /dev/null; then
             echo "Found .deb packages. Uploading to omp-debian-release-local..."
             jfrog rt upload "./downloads/*.deb" "omp-debian-release-local/pool/${{ steps.vars.outputs.tag }}/" \
+              --flat=true \
               --target-props="deb.distribution=stable;deb.component=main;deb.architecture=s390x" \
               --build-name="gh-release-sync" \
               --build-number="${{ github.run_number }}"
@@ -58,6 +59,7 @@ jobs:
           if compgen -G "./downloads/*.rpm" > /dev/null; then
             echo "Found .rpm packages. Uploading to omp-binaries-release-local/rpm..."
             jfrog rt upload "./downloads/*.rpm" "omp-binaries-release-local/rpm/${{ steps.vars.outputs.tag }}/" \
+              --flat=true \
               --build-name="gh-release-sync" \
               --build-number="${{ github.run_number }}"
           else
@@ -72,6 +74,7 @@ jobs:
           if [ ${#generic_files[@]} -gt 0 ]; then
             echo "Found generic assets. Uploading to omp-binaries-release-local..."
             jfrog rt upload "./downloads/*" "omp-binaries-release-local/${{ steps.vars.outputs.tag }}/" \
+              --flat=true \
               --exclusions="*.deb;*.rpm" \
               --build-name="gh-release-sync" \
               --build-number="${{ github.run_number }}"
