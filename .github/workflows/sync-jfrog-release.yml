@@ -30,8 +30,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p downloads
-          # Download assets for the resolved tag
-          gh release download "${{ steps.vars.outputs.tag }}" --dir ./downloads || echo "No release assets found to download."
+          # Download assets for the resolved tag from the current repository
+          gh release download "${{ steps.vars.outputs.tag }}" --repo "${{ github.repository }}" --dir ./downloads || echo "No release assets found to download."
 
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
