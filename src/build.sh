@@ -18,7 +18,7 @@ apt update; apt install sudo git rpm -y
 git clone https://github.com/linux-on-ibm-z/scripts.git /tmp/linux-on-ibm-z
 # Build Debian and RPM packages
 sed -i '/build-kong/a \    bazel build //build:kong --config release\n    bazel build --config release :kong_deb\n    bazel build --config release :kong_el8 --action_env=RPM_SIGNING_KEY_FILE --action_env=NFPM_RPM_PASSPHRASE' /tmp/linux-on-ibm-z-scripts/Kong/${version}/build_kong.sh
-sed -i '/kong.diff/a \    git apply ${CURDIR}/patches/nfpm.diff' /tmp/linux-on-ibm-z-scripts/Kong/${version}/build_kong.sh 
+sed -i '/kong.diff/a \    git apply --ignore-space-change --ignore-whitespace ${CURDIR}/patches/nfpm.diff' /tmp/linux-on-ibm-z-scripts/Kong/${version}/build_kong.sh 
 bash /tmp/linux-on-ibm-z-scripts/Kong/${version}/build_kong.sh -y
 # Copy generated Debian and RPM packages
 mv ${current_dir}/kong/bazel-out/s390x-opt/bin/pkg/kong.s390x.deb ${current_dir}/kong-${version}-linux-s390x.deb
